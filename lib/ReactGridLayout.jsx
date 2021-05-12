@@ -292,18 +292,31 @@ export default class ReactGridLayout extends React.Component<Props, State> {
       i: i
     };
 
+    // Rinn edit: We don't need to worry about the layout object
+    // since we don't use the one from RGL. We only care about the new item and the placeholder
+
     // Move the element to the dragged location.
-    const isUserAction = true;
-    layout = moveElement(
-      layout,
-      l,
-      x,
-      y,
-      isUserAction,
-      this.props.preventCollision,
-      compactType(this.props),
-      cols
-    );
+    // const isUserAction = true;
+    // layout = moveElement(
+    //   layout,
+    //   l,
+    //   x,
+    //   y,
+    //   isUserAction,
+    //   this.props.preventCollision,
+    //   compactType(this.props),
+    //   cols
+    // );
+
+    // Short-circuit if nothing to do.
+    if (l.y === y && l.x === x) return;
+
+    // const oldX = l.x;
+    // const oldY = l.y;
+
+    // This is quite a bit faster than extending the object
+    if (typeof x === "number") l.x = x;
+    if (typeof y === "number") l.y = y;
 
     this.props.onDrag(layout, oldDragItem, l, placeholder, e, node);
 
