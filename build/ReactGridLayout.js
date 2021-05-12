@@ -372,12 +372,11 @@ var ReactGridLayout = /*#__PURE__*/function (_React$Component) {
       var isUserAction = true;
       layout = (0, _utils.moveElement)(layout, l, x, y, isUserAction, this.props.preventCollision, (0, _utils.compactType)(this.props), cols); // Rinn: Need coordinates regardless of whether they're considered legal by RGL
 
-      var newItem = _objectSpread(_objectSpread({}, l), {}, {
+      var hoverCoords = {
         x: x,
         y: y
-      });
-
-      this.props.onDrag(layout, oldDragItem, newItem, placeholder, e, node);
+      };
+      this.props.onDrag(layout, oldDragItem, l, placeholder, e, node, hoverCoords);
       this.setState({
         layout: (0, _utils.compact)(layout, (0, _utils.compactType)(this.props), cols),
         activeDrag: placeholder
@@ -417,12 +416,11 @@ var ReactGridLayout = /*#__PURE__*/function (_React$Component) {
       var isUserAction = true;
       layout = (0, _utils.moveElement)(layout, l, x, y, isUserAction, preventCollision, (0, _utils.compactType)(this.props), cols); // Rinn: Need coordinates regardless of whether they're considered legal by RGL
 
-      var newItem = _objectSpread(_objectSpread({}, l), {}, {
+      var hoverCoords = {
         x: x,
         y: y
-      });
-
-      this.props.onDragStop(layout, oldDragItem, newItem, null, e, node); // Set state
+      };
+      this.props.onDragStop(layout, oldDragItem, l, null, e, node, hoverCoords); // Set state
 
       var newLayout = (0, _utils.compact)(layout, (0, _utils.compactType)(this.props), cols);
       var oldLayout = this.state.oldLayout;
