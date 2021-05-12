@@ -422,7 +422,7 @@ var ReactGridLayout = /*#__PURE__*/function (_React$Component) {
         y: y
       });
 
-      this.props.onDrag(layout, oldDragItem, newItem, null, e, node); // Set state
+      this.props.onDragStop(layout, oldDragItem, newItem, null, e, node); // Set state
 
       var newLayout = (0, _utils.compact)(layout, (0, _utils.compactType)(this.props), cols);
       var oldLayout = this.state.oldLayout;

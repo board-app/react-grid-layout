@@ -354,7 +354,7 @@ export default class ReactGridLayout extends React.Component<Props, State> {
     // Rinn: Need coordinates regardless of whether they're considered legal by RGL
     const newItem = { ...l, x: x, y: y };
 
-    this.props.onDrag(layout, oldDragItem, newItem, null, e, node);
+    this.props.onDragStop(layout, oldDragItem, newItem, null, e, node);
 
     // Set state
     const newLayout = compact(layout, compactType(this.props), cols);
