@@ -370,7 +370,7 @@ var ReactGridLayout = /*#__PURE__*/function (_React$Component) {
       }; // Move the element to the dragged location.
 
       var isUserAction = true;
-      layout = (0, _utils.moveElement)(layout, l, x, y, isUserAction, this.props.preventCollision, (0, _utils.compactType)(this.props), cols);
+      layout = (0, _utils.moveElement)(layout, l, x, y, isUserAction, this.props.preventCollision, (0, _utils.compactType)(this.props), cols); // Rinn: Need coordinates regardless of whether they're considered legal by RGL
 
       var newItem = _objectSpread(_objectSpread({}, l), {}, {
         x: x,
@@ -415,8 +415,14 @@ var ReactGridLayout = /*#__PURE__*/function (_React$Component) {
       if (!l) return; // Move the element here
 
       var isUserAction = true;
-      layout = (0, _utils.moveElement)(layout, l, x, y, isUserAction, preventCollision, (0, _utils.compactType)(this.props), cols);
-      this.props.onDragStop(layout, oldDragItem, l, null, e, node); // Set state
+      layout = (0, _utils.moveElement)(layout, l, x, y, isUserAction, preventCollision, (0, _utils.compactType)(this.props), cols); // Rinn: Need coordinates regardless of whether they're considered legal by RGL
+
+      var newItem = _objectSpread(_objectSpread({}, l), {}, {
+        x: x,
+        y: y
+      });
+
+      this.props.onDrag(layout, oldDragItem, newItem, null, e, node); // Set state
 
       var newLayout = (0, _utils.compact)(layout, (0, _utils.compactType)(this.props), cols);
       var oldLayout = this.state.oldLayout;
