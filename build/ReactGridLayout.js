@@ -371,9 +371,13 @@ var ReactGridLayout = /*#__PURE__*/function (_React$Component) {
 
       var isUserAction = true;
       layout = (0, _utils.moveElement)(layout, l, x, y, isUserAction, this.props.preventCollision, (0, _utils.compactType)(this.props), cols);
-      if (typeof x === "number") l.x = x;
-      if (typeof y === "number") l.y = y;
-      this.props.onDrag(layout, oldDragItem, l, placeholder, e, node);
+
+      var newItem = _objectSpread(_objectSpread({}, l), {}, {
+        x: x,
+        y: y
+      });
+
+      this.props.onDrag(layout, oldDragItem, newItem, placeholder, e, node);
       this.setState({
         layout: (0, _utils.compact)(layout, (0, _utils.compactType)(this.props), cols),
         activeDrag: placeholder

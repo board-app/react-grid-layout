@@ -305,10 +305,9 @@ export default class ReactGridLayout extends React.Component<Props, State> {
       cols
     );
 
-    if (typeof x === "number") l.x = x;
-    if (typeof y === "number") l.y = y;
+    const newItem = { ...l, x: x, y: y };
 
-    this.props.onDrag(layout, oldDragItem, l, placeholder, e, node);
+    this.props.onDrag(layout, oldDragItem, newItem, placeholder, e, node);
 
     this.setState({
       layout: compact(layout, compactType(this.props), cols),
