@@ -266,6 +266,7 @@ cols: ?number = 12,
 // A CSS selector for tags that will not be draggable.
 // For example: draggableCancel:'.MyNonDraggableAreaClassName'
 // If you forget the leading . it will not work.
+// .react-resizable-handle" is always prepended to this value.
 draggableCancel: ?string = '',
 
 // A CSS selector for tags that will act as the draggable handle.
@@ -342,7 +343,9 @@ isDroppable: ?boolean = false
 // 'ne' - Northeast handle (top-right)
 resizeHandles: ?Array<'s' | 'w' | 'e' | 'n' | 'sw' | 'nw' | 'se' | 'ne'> = ['se']
 // Custom component for resize handles
-// See `handle` as used in https://github.com/react-grid-layout/react-resizable#props
+// See `handle` as used in https://github.com/react-grid-layout/react-resizable#resize-handle
+// Your component should have the class `.react-resizable-handle`, or you should add your custom
+// class to the `draggableCancel` prop.
 resizeHandle?: ReactElement<any> | ((resizeHandleAxis: ResizeHandleAxis, ref: ReactRef<HTMLElement>) => ReactElement<any>)
 
 //
@@ -372,8 +375,17 @@ onResizeStart: ItemCallback,
 onResize: ItemCallback,
 // Calls when resize is complete.
 onResizeStop: ItemCallback,
+
+//
+// Dropover functionality
+//
+
 // Calls when an element has been dropped into the grid from outside.
 onDrop: (layout: Layout, item: ?LayoutItem, e: Event) => void
+// Calls when an element is being dragged over the grid from outside as above.
+// This callback should return an object to dynamically change the droppingItem size
+// Return false to short-circuit the dragover
+onDropDragOver: (e: DragOverEvent) => ?({|w?: number, h?: number|} | false);
 
 // Ref for getting a reference for the grid's wrapping div.
 // You can use this instead of a regular ref and the deprecated `ReactDOM.findDOMNode()`` function.
@@ -506,6 +518,29 @@ function MyGrid(props) {
 ```
 
 Because the `children` prop doesn't change between rerenders, updates to `<MyGrid>` won't result in new renders, improving performance.
+
+### Custom Child Components and Draggable Handles
+
+If you use React Components as grid children, they need to do a few things:
+
+1. Forward refs to an underlying DOM node, and
+2. Forward `style` and `className` to that same DOM node.
+
+For example:
+
+```js
+const CustomGridItemComponent = React.forwardRef(({style, className, ...props}, ref) => {
+  return (
+    <div style={{ /* styles */, ...style}} className={className} ref={ref}>
+      {/* Some other content */}
+    </div>  
+  );
+}
+```
+
+The same is true of custom elements as draggable handles using the `draggableHandle` prop. This is so that
+the underlying `react-draggable` library can get a reference to the DOM node underneath, manipulate
+positioning via `style`, and set classes.
 
 ## Contribute
 
